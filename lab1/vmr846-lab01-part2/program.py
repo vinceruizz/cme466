@@ -1,13 +1,12 @@
-import PCF8591 as adc
-import RPi.GPIO
+import smbus
+import RPi.GPIO as gpio
+import time
 
-GPIO.setmode(GPIO.BCM)
+i2c = smbus.SMBus(1)
 
-adc.setup(0x48)
-
-count = 0
 while True:
-	val = adc.read(0)
-	if val:
-		print("Value: " + val)
-		time.sleep(0.2)
+	i2c.write_byte(0x48, 0x40)
+	i2c.read_byte(0x48)
+	result = i2c.read_byte(0x48)
+	print("value: " + str(result))
+	time.sleep(0.5)
