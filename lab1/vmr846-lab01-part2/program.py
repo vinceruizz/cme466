@@ -44,9 +44,7 @@ def wave(val):
 
 # prints the dB value of the sound visualizer using a 1V reference voltage (20 * log(adc value))
 def db(value):
-	print("value: " + str(value))
 	result = 20*(m.log(value, 10))
-	print("log: " + str(m.log(value, 10)))
 	if result <= 40:
 		print("It's pretty quiet around here. dB level: " + str(int(result)) + " dB")
 	elif result <= 70:
@@ -68,13 +66,20 @@ def sound():
 			#wave(result)
 			#print(result)
 			db(result)
+
 def light():
+	flag = False
 	while True:
 		if gpio.input(swtPin) == 0:
 			gpio.output(ledPin, gpio.HIGH)
+			if flag == False:
+				print("The System is on!")
+				flag = True
 		else:
 			gpio.output(ledPin, gpio.LOW)
-			print("The System is off!")
+			if flag == True:
+				print("The System is off!")
+				flag = False
 
 x1 = threading.Thread(target=sound)
 x2 = threading.Thread(target=light)
