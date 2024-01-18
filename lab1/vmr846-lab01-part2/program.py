@@ -1,3 +1,4 @@
+import math as m
 import smbus
 import RPi.GPIO as gpio
 import time
@@ -11,6 +12,7 @@ gpio.setmode(gpio.BCM)
 gpio.setup(swtPin, gpio.IN, pull_up_down=gpio.PUD_UP)
 gpio.setup(ledPin, gpio.OUT)
 
+# a sound visualizer representation of the sound sensor
 def wave(val):
 	if (val < 20):
 		print("---")
@@ -38,20 +40,41 @@ def wave(val):
 		print("-----------------------------------------------")
 	else:
 		print("---------------------------------------------------")
+	time.sleep(0.05)
 
+# prints the dB value of the sound visualizer using a 1V reference voltage (20 * log(adc value))
+def db(value):
+	print("value: " + str(value))
+	result = 20*(m.log(value, 10))
+	print("log: " + str(m.log(value, 10)))
+	if result <= 40:
+		print("It's pretty quiet around here. dB level: " + str(int(result)) + " dB")
+	elif result <= 70:
+		print("Getting noisier. Sounds like a busy office. dB level: " + str(int(result)) + " dB")
+	elif result <= 100:
+		print("It's loud in here! dB level: " + str(int(result)) + " dB")
+	elif result <= 140:
+		print("What, is My Bloody Valentine playing a concert?! dB level: " + str(int(result)) + " dB")
+	else:
+		print("TURN IT DOWN!!!!! dB level: " + str(int(result)) + " dB")
+	time.sleep(0.5)
+	
 def sound():
 	while True:
-		i2c.write_byte(0x48, 0x40)
-		i2c.read_byte(0x48)
-		result = i2c.read_byte(0x48)
-		wave(result)
-		time.sleep(0.05)
+		if gpio.input(swtPin) == 0:
+			i2c.write_byte(0x48, 0x40) 
+			i2c.read_byte(0x48)
+			result = i2c.read_byte(0x48)
+			#wave(result)
+			#print(result)
+			db(result)
 def light():
 	while True:
 		if gpio.input(swtPin) == 0:
 			gpio.output(ledPin, gpio.HIGH)
 		else:
 			gpio.output(ledPin, gpio.LOW)
+			print("The System is off!")
 
 x1 = threading.Thread(target=sound)
 x2 = threading.Thread(target=light)
