@@ -44,7 +44,7 @@ def wave(val):
 
 # prints the dB value of the sound visualizer using a 1V reference voltage (20 * log(adc value))
 def db(value):
-	result = 20*(m.log(value, 10))
+	result = 20*(m.log(value/3.3, 10))
 	if result <= 40:
 		print("It's pretty quiet around here. dB level: " + str(int(result)) + " dB")
 	elif result <= 70:
