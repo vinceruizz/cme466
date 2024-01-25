@@ -18,10 +18,10 @@ def getTime():
 
 
 while True:
-    randNum = uniform(20.0,21.0)
-    initialTime = getTime()
+	randNum = uniform(20.0,21.0)
+	initialTime = getTime()
 	msg = {"data":randNum,"timestamp":initialTime}
 	payload = json.dumps(msg)
 	client.publish("DB_LEVEL", payload, 2, True) # To change the QoS level, change the argument "2" to your desired QoS level. To set/clear the retain flag, change the "True" argument
-    print("[PUBLISHER] Just published %s to topic \"DB_LEVEL\"" % json.loads(payload))
-    time.sleep(1) 
+	print("[PUBLISHER] Just published %s to topic \"DB_LEVEL\"" % json.loads(payload))
+	time.sleep(1) 
