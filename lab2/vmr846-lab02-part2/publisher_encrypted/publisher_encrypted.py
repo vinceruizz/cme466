@@ -29,7 +29,8 @@ key = open("./key.bin", "rb").read()
 
 
 while True:
-randNum = uniform(0,100)	initialTime = getTime()
+	randNum = uniform(0,100)	
+	initialTime = getTime()
 	msg = {"data":randNum,"timestamp":initialTime}
 	payload = json.dumps(msg)
 	encrypted_payload = encrypt(payload, key)
