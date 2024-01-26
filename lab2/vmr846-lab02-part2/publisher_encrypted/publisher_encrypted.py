@@ -6,7 +6,7 @@ import json
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 
-broker = "0.0.0.0"
+broker = "broker.emqx.io"
 client = mqtt.Client("client1")
 client.connect(broker)
 

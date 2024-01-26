@@ -4,7 +4,7 @@ from random import uniform
 import ntplib
 import json
 
-broker = "0.0.0.0"
+broker = "broker.hivemq.com"
 client = mqtt.Client("client1")
 client.connect(broker)
 
