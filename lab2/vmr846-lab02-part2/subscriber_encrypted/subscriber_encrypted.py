@@ -32,7 +32,7 @@ def decrypt(encryptedData, key):
 	decryptedData = cipher.decrypt(ciphertext)
 	return unpad(decryptedData, AES.block_size).decode()
 
-broker = "0.0.0.0"
+broker = "broker.emqx.io"
 client = mqtt.Client("end_device")
 client.connect(broker)
 

@@ -13,11 +13,11 @@ def on_message(client, userdata, message):
 	try:
 		currentTime = (ntpClient.request("pool.ntp.org")).tx_time
 		latency = (currentTime - initialTime) * 1000
-		print(f'[SUBSCRIBER] Transmission latency: {latency}')
+		print(f'[SUBSCRIBER] Transmission latency: {latency} ms')
 	except Exception as e:
 		print(f'Error with NTP. Got: {e}')
 
-broker = "0.0.0.0"
+broker = "broker.hivemq.com"
 client = mqtt.Client("end_device")
 client.connect(broker)
 
