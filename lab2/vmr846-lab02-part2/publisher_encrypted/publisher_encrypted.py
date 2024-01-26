@@ -23,10 +23,10 @@ def getTime():
 
 def encrypt(data, key):
 	cipher = AES.new(key, AES.MODE_EAX)
-	encryptedMessage = cipher.iv + cipher.encrypt(pad(data.encode(), AES.block_size))
+	encryptedMessage = cipher.nonce + cipher.encrypt(pad(data.encode(), AES.block_size))
 	return encryptedMessage
 
-key = open("key.bin", "rb").read()
+key = open("./key.bin", "rb").read()
 
 
 while True:
@@ -36,5 +36,5 @@ while True:
 	payload = json.dumps(msg)
 	encrypted_payload = encrypt(payload, key)
 	client.publish("DB_LEVEL", encrypted_payload, qos=0, retain=True) # To change the QoS level, edit the qos arguemnt with the desired QoS level (0,1,2). To set/clear the retain flag, change the retain parameter to True/False, respectively
-	print("[PUBLISHER] Just published %payload to topic \"DB_LEVEL\"" % json.loads(payload))
+	print("[PUBLISHER] Just published %s to topic \"DB_LEVEL\"" % json.loads(payload))
 	time.sleep(1) 
