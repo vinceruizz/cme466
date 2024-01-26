@@ -72,12 +72,12 @@ def publish():
 	while True:
 		print(f"DB Value: {dbValue}")
 		initialTime = getTime()
-	    msg = {"data":dbValue,"timestamp":initialTime}
-	    payload = json.dumps(msg)
-	    encrypted_payload = encrypt(payload, key)
-	    client.publish("DB_LEVEL", encrypted_payload, qos=0, retain=True) # To change the QoS level, edit the >
-	    print("[PUBLISHER] Just published %s to topic \"DB_LEVEL\"" % json.loads(payload))
-	    time.sleep(1) 
+		msg = {"data":dbValue,"timestamp":initialTime}
+		payload = json.dumps(msg)
+		encrypted_payload = encrypt(payload, key)
+		client.publish("DB_LEVEL", encrypted_payload, qos=0, retain=True) # To change the QoS level, edit the >
+		print("[PUBLISHER] Just published %s to topic \"DB_LEVEL\"" % json.loads(payload))
+		time.sleep(1) 
 
 x1 = threading.Thread(target=sound)
 x2 = threading.Thread(target=light)
