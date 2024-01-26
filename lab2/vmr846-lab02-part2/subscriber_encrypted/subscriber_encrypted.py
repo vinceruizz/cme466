@@ -4,7 +4,8 @@ import ntplib
 import json
 
 def on_message(client, userdata, message):
-	received = json.loads(message.payload.decode("utf-8"))
+	encryptedData = json.loads(message.payload.decode("utf-8"))
+	received = decrypt(encryptedData)
 	data = received["data"]
 	initialTime = received["timestamp"]
 	print("[SUBSCRIBER] Received message: %s" % str(data))
@@ -16,6 +17,11 @@ def on_message(client, userdata, message):
 		print(f'[SUBSCRIBER] Transmission latency: {latency}')
 	except Exception as e:
 		print(f'Error with NTP. Got: {e}')
+
+def decrypt(encryptedData, key):
+	cipher = AES.new(key, AES.MODE_EAX, encryptedData[0:AES.block_size])
+	decryptedData = unpad(cipher.decrypt(encryptedData[AES.block_size:], AES.block_size))
+	return decryptedData.decode()
 
 broker = "0.0.0.0"
 client = mqtt.Client("end_device")
