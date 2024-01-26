@@ -3,6 +3,7 @@ import json
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import unpad
 import math as m
 import smbus
 import RPi.GPIO as gpio
@@ -69,6 +70,13 @@ def publish():
 		client.publish("DB_LEVEL", encrypted_payload, qos=0, retain=True) # To change the QoS level, edit the >
 		print("[PUBLISHER] Just published %s to topic \"DB_LEVEL\"" % json.loads(payload))
 		time.sleep(0.25)
+
+def decrypt(encryptedData, key):
+    nonce = encryptedData[:16]
+    ciphertext = encryptedData[16:]
+    cipher = AES.new(key, AES.MODE_EAX, nonce)
+    decryptedData = cipher.decrypt(ciphertext)
+    return unpad(decryptedData, AES.block_size).decode()
 
 def on_message(client, userdata, message):
 	global lightStatus
