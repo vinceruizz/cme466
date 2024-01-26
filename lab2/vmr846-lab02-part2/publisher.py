@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
-from random import randrange, uniform
+from random import uniform
 import ntplib
 import json
 
@@ -20,7 +20,7 @@ def getTime():
 
 
 while True:
-	randNum = uniform(20.0,21.0)
+	randNum = uniform(0,100)
 	initialTime = getTime()
 	msg = {"data":randNum,"timestamp":initialTime}
 	payload = json.dumps(msg)

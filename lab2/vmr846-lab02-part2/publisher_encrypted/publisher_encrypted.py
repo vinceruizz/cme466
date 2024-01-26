@@ -1,11 +1,10 @@
 import paho.mqtt.client as mqtt
 import time
-from random import randrange, uniform
+from random import uniform
 import ntplib
 import json
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
-from Crypto.Random import get_random_bytes
 
 broker = "0.0.0.0"
 client = mqtt.Client("client1")
@@ -30,8 +29,7 @@ key = open("./key.bin", "rb").read()
 
 
 while True:
-	randNum = uniform(20.0,21.0)
-	initialTime = getTime()
+randNum = uniform(0,100)	initialTime = getTime()
 	msg = {"data":randNum,"timestamp":initialTime}
 	payload = json.dumps(msg)
 	encrypted_payload = encrypt(payload, key)
