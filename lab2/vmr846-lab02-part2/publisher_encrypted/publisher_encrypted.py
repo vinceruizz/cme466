@@ -15,7 +15,6 @@ def getTime():
 	try:
 		result = ntpClient.request("pool.ntp.org")
 		time = result.tx_time
-		print(f"Initial time: {time}")
 		return time
 	except Exception as e:
 		print(f"Error with NTP. Got: {e}")
