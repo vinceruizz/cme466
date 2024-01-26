@@ -1,7 +1,6 @@
 import paho.mqtt.client as mqtt
-import time
-import ntplib
 import json
+import time
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 
@@ -12,16 +11,7 @@ def on_message(client, userdata, message):
 	try:
 		received = json.loads(decrypt(encryptedData, key))
 		data = received["data"]
-		initialTime = received["timestamp"]
-		print("[SUBSCRIBER] Received message: %s" % str(data))
-
-		ntpClient = ntplib.NTPClient()
-		try:
-			currentTime = (ntpClient.request("pool.ntp.org")).tx_time
-			latency = currentTime - initialTime
-			print(f'[SUBSCRIBER] Transmission latency: {latency}')
-		except Exception as e:
-			print(f'Error with NTP. Got: {e}')
+		print("[SUBSCRIBER] Sensor dB level: %s dB" % str(data))
 	except Exception as e:
 		print(f"Decryption error. Got: {e}")
 

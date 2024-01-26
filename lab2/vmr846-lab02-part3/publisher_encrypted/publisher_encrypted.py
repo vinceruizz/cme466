@@ -1,7 +1,4 @@
 import paho.mqtt.client as mqtt
-import time
-from random import randrange, uniform
-import ntplib
 import json
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
@@ -25,16 +22,7 @@ client = mqtt.Client("client1")
 client.connect(broker)
 
 dbValue = 0
-
-def getTime():
-	ntpClient = ntplib.NTPClient()
-	try:
-		result = ntpClient.request("pool.ntp.org")
-		time = result.tx_time
-		print(f"Initial time: {time}")
-		return time
-	except Exception as e:
-		print(f"Error with NTP. Got: {e}")
+lightStatus = 'on'
 
 def encrypt(data, key):
 	cipher = AES.new(key, AES.MODE_EAX)
@@ -44,9 +32,10 @@ def encrypt(data, key):
 key = open("./key.bin", "rb").read()
 
 def sound():
+	global dbValue
 	while True:
 		if gpio.input(swtPin) == 0:
-			i2c.write_byte(0x48, 0x40) 
+			i2c.write_byte(0x48, 0x40)
 			i2c.read_byte(0x48)
 			result = i2c.read_byte(0x48)
 			#print(f"ADC Value: {result}")
@@ -55,10 +44,14 @@ def sound():
 			dbValue = 20*(m.log(result/5, 10))
 
 def light():
+	gpio.output(ledPin, gpio.LOW)
 	flag = False
 	while True:
 		if gpio.input(swtPin) == 0:
-			gpio.output(ledPin, gpio.HIGH)
+			if lightStatus == 'on':
+				gpio.output(ledPin, gpio.HIGH)
+			elif lightStatus == 'off':
+				gpio.output(ledPin, gpio.LOW)
 			if flag == False:
 				print("[PUBLISHER] The System is on!")
 				flag = True
@@ -70,14 +63,26 @@ def light():
 
 def publish():
 	while True:
-		print(f"DB Value: {dbValue}")
-		initialTime = getTime()
-		msg = {"data":dbValue,"timestamp":initialTime}
+		msg = {"data":dbValue}
 		payload = json.dumps(msg)
 		encrypted_payload = encrypt(payload, key)
 		client.publish("DB_LEVEL", encrypted_payload, qos=0, retain=True) # To change the QoS level, edit the >
 		print("[PUBLISHER] Just published %s to topic \"DB_LEVEL\"" % json.loads(payload))
-		time.sleep(1) 
+		time.sleep(0.25)
+
+def on_message(client, userdata, message):
+	global lightStatus
+    encryptedData = message.payload
+    try:
+        received = json.loads(decrypt(encryptedData, key))
+        data = received["data"]
+		if data == 'on':
+        	print("Turning light on")
+		elif data == 'off':
+			print("Turning light off")
+		lightStatus = data
+    except Exception as e:
+        print(f"Decryption error. Got: {e}")
 
 x1 = threading.Thread(target=sound)
 x2 = threading.Thread(target=light)
@@ -85,5 +90,11 @@ x3 = threading.Thread(target=publish)
 x1.start()
 x2.start()
 x3.start()
+
+client.loop_start()
+client.subscribe("light")
+client.on_message = on_message
+time.sleep(30)
+client.loop_end()
 
  
