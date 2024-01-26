@@ -72,17 +72,17 @@ def publish():
 
 def on_message(client, userdata, message):
 	global lightStatus
-    encryptedData = message.payload
-    try:
-        received = json.loads(decrypt(encryptedData, key))
-        data = received["data"]
+	encryptedData = message.payload
+	try:
+		received = json.loads(decrypt(encryptedData, key))
+		data = received["data"]
 		if data == 'on':
-        	print("Turning light on")
+			print("Turning light on")
 		elif data == 'off':
 			print("Turning light off")
 		lightStatus = data
-    except Exception as e:
-        print(f"Decryption error. Got: {e}")
+	except Exception as e:
+		print(f"Decryption error. Got: {e}")
 
 x1 = threading.Thread(target=sound)
 x2 = threading.Thread(target=light)
