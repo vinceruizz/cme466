@@ -18,8 +18,8 @@ def on_message(client, userdata, message):
 		ntpClient = ntplib.NTPClient()
 		try:
 			currentTime = (ntpClient.request("pool.ntp.org")).tx_time
-			latency = currentTime - initialTime
-			print(f'[SUBSCRIBER] Transmission latency: {latency}')
+			latency = (currentTime - initialTime) / 1000
+			print(f'[SUBSCRIBER] Transmission latency: {latency} ms')
 		except Exception as e:
 			print(f'Error with NTP. Got: {e}')
 	except Exception as e:
