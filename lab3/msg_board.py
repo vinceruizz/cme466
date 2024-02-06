@@ -6,11 +6,11 @@ def on_message(client, userdata, message):
 	print("[MSG_BOARD] Received message: %s" % str(data))
 
 broker = "broker.hivemq.com"
-client = mqtt.Client("end_device")
+client = mqtt.Client("msg_board_client_ruiz")
 client.connect(broker)
 
 client.loop_start()
-client.subscribe("DB_LEVEL") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
+client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
 client.on_message = on_message
 time.sleep(30)
 client.loop_end()
