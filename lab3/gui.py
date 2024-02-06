@@ -10,16 +10,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-# import paho.mqtt.client as mqtt
-import time
-# import ntplib
-import json
+import paho.mqtt.client as mqtt
 
 
 class Ui_MainWindow(object):
-    # broker = '0.0.0.0'
-    # client = mqtt.Client("client1")
-    # client.connect(broker)
+    broker = 'broker.hivemq.com'
+    client = mqtt.Client("gui_ruiz")
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -218,9 +214,13 @@ class Ui_MainWindow(object):
         
         
     def sendBoardMessage(self):
-        msg = self.messageBoardInput.toPlainText()
-        print(msg)
-        return True
+        try:
+            self.client.connect(self.broker)
+            msg = self.messageBoardInput.toPlainText()
+            self.client.publish("MSG_BOARD", msg)
+            print("[MSG BOARD] Just published %s to topic \"MSG_BOARD\"" % msg)
+        except Exception as e:
+             print(f'[MSG BOARD] {e}')
     
 
 class emergencyLightGraphic(QtWidgets.QWidget):
@@ -228,9 +228,6 @@ class emergencyLightGraphic(QtWidgets.QWidget):
         painter = QtGui.QPainter(self)
         painter.setBrush(QtGui.QBrush(QtCore.Qt.red))
         painter.drawEllipse(160,0,50, 50)
-
-		
-    
 
 
 
