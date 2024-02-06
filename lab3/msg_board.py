@@ -21,9 +21,9 @@ def end_connection():
         if end_connection == "end":
             client.loop_stop()
             print("connection to broker ended")
-		if end_connection == "start":
-			client.loop_start()
-			print("connection to broker started")
+        if end_connection == "start":
+            client.loop_start()
+            print("connection to broker started")
 
 x2 = threading.Thread(target=end_connection)
 x2.start()
