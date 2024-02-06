@@ -9,8 +9,11 @@ broker = "broker.hivemq.com"
 client = mqtt.Client("msg_board_client_ruiz")
 client.connect(broker)
 
-client.loop_start()
+client.loop_forever()
 client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
 client.on_message = on_message
-time.sleep(30)
-client.loop_stop()
+
+while True:
+	end_connection = input(">> ")
+	if end_connection == "end":
+		client.disconnect()
