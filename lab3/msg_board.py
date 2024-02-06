@@ -20,7 +20,7 @@ def end_connection():
         end_connection = input(">> ")
         if end_connection == "end":
             client.loop_stop()
-			print("connection to broker ended")
+            print("connection to broker ended")
 
 x2 = threading.Thread(target=end_connection)
 x2.start()
