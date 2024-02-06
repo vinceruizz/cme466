@@ -13,4 +13,4 @@ client.loop_start()
 client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
 client.on_message = on_message
 time.sleep(30)
-client.loop_end()
+client.loop_stop()
