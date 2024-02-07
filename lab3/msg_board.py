@@ -99,6 +99,7 @@ x2 = threading.Thread(target=handleEmergency)
 x3 = threading.Thread(target=readTemperature)
 x1.start()
 x2.start()
+x3.start()
 
 client.loop_start()
 client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
