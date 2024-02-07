@@ -3,7 +3,7 @@ import threading
 import json
 
 def on_message(client, userdata, message):
-    payload = json.loads(message)
+    payload = json.loads(message.payload)
     type = payload["type"]
     data = payload["data"]
     if type == "msg_board":
