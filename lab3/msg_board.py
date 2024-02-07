@@ -34,34 +34,34 @@ client.on_message = on_message
 #             client.loop_start()
 #             print("connection to broker started")
 
-def simulate_parking():
-    dataset = [
-        [True, False, True, True, True],
-        [False, True, True, False, False],
-        [True, False, True, False, False],
-        [False, True, False, False, True],
-        [False, False, True, True, False],
-        [False, False, False, False, False],
-        [True, False, False, True, True],
-        [False, False, True, False, False],
-        [False, True, True, False, True],
-        [False, True, True, False, False],
-        [False, True, True, False, True],
-        [True, False, True, True, True],
-        [True, False, True, False, False],
-        [False, False, True, False, False],
-        [True, True, False, False, True]
-    ]
-    for set in dataset:
-        msg = {
-            "type":"parking",
-            "data":set
-        }
-        payload = json.dumps(msg)
-        client.publish("parking_ruiz", payload)
-        time.sleep(5)
+# def simulate_parking():
+#     dataset = [
+#         [True, False, True, True, True],
+#         [False, True, True, False, False],
+#         [True, False, True, False, False],
+#         [False, True, False, False, True],
+#         [False, False, True, True, False],
+#         [False, False, False, False, False],
+#         [True, False, False, True, True],
+#         [False, False, True, False, False],
+#         [False, True, True, False, True],
+#         [False, True, True, False, False],
+#         [False, True, True, False, True],
+#         [True, False, True, True, True],
+#         [True, False, True, False, False],
+#         [False, False, True, False, False],
+#         [True, True, False, False, True]
+#     ]
+#     for set in dataset:
+#         msg = {
+#             "type":"parking",
+#             "data":set
+#         }
+#         payload = json.dumps(msg)
+#         client.publish("parking_ruiz", payload)
+#         time.sleep(5)
 
-x1 = threading.Thread(target=simulate_parking)
-x1.start()
-# x2 = threading.Thread(target=manage_connection)
-# x2.start()
+# x1 = threading.Thread(target=simulate_parking)
+# x1.start()
+# # x2 = threading.Thread(target=manage_connection)
+# # x2.start()
