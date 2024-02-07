@@ -18,7 +18,7 @@ import json
 class Ui_MainWindow(object):
     updateParkingSignal = QtCore.pyqtSignal(list)
     updateTemperatureSignal  = QtCore.pyqtSignal(float)
-    broker = 'broker.hivemq.com'
+    broker = 'mqtt.eclipseprojects.io'
     client = mqtt.Client("gui_ruiz")
     spots = []
 
