@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import threading
 import json
+import time
 
 def on_message(client, userdata, message):
     payload = json.loads(message.payload)
@@ -27,6 +28,30 @@ def manage_connection():
         if manage_connection == "start":
             client.loop_start()
             print("connection to broker started")
+
+def simulate_parking():
+    dataset = [
+        [True, False, True, True, True],
+        [False, True, True, False, False],
+        [True, False, True, False, False],
+        [False, True, False, False, True],
+        [False, False, True, True, False],
+        [False, False, False, False, False],
+        [True, False, False, True, True],
+        [False, False, True, False, False],
+        [False, True, True, False, True],
+        [False, True, True, False, False],
+        [False, True, True, False, True],
+        [True, False, True, True, True],
+        [True, False, True, False, False],
+        [False, False, True, False, False],
+        [True, True, False, False, True]
+    ]
+    for set in dataset:
+        payload = json.dumps(set)
+        client.publish("parking_ruiz", payload)
+        time.sleep(10)
+
 
 x2 = threading.Thread(target=manage_connection)
 x2.start()
