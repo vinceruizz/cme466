@@ -58,8 +58,7 @@ def simulate_parking():
         client.publish("parking_ruiz", payload)
         time.sleep(5)
 
-
+x1 = threading.Thread(target=simulate_parking)
+x1.start()
 # x2 = threading.Thread(target=manage_connection)
 # x2.start()
-
-simulate_parking()
