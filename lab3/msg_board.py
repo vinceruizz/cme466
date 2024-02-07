@@ -63,7 +63,19 @@ def readTemperature():
         Rt = 10000 * Vr / (5 - Vr)
         temp = 1/(((math.log(Rt / 10000)) / 3950) + (1 / (273.15+25)))
         temp = temp - 273.15
-        print ('temperature = ', temp, 'C')
+
+def sendTemperature():
+    global temp
+
+    while True:
+        msg = {
+            "type":"temperature",
+            "data":temp
+        }
+        payload = json.dumps(msg)
+        client.publish("temperature_ruiz", payload)
+        print(f"[temperature] Just published {payload} to topic 'temperature;")
+        time.sleep(5)
 
 
 def simulate_parking():
@@ -97,9 +109,11 @@ def simulate_parking():
 x1 = threading.Thread(target=simulate_parking)
 x2 = threading.Thread(target=handleEmergency)
 x3 = threading.Thread(target=readTemperature)
+x4 = threading.Thread(target=sendTemperature)
 x1.start()
 x2.start()
 x3.start()
+x4.start()
 
 client.loop_start()
 client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
