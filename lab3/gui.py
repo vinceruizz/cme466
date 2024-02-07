@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import paho.mqtt.client as mqtt
+import json
 
 
 class Ui_MainWindow(object):
@@ -216,9 +217,13 @@ class Ui_MainWindow(object):
     def sendBoardMessage(self):
         try:
             self.client.connect(self.broker)
-            msg = self.messageBoardInput.toPlainText()
-            self.client.publish("MSG_BOARD", msg)
-            print("[MSG BOARD] Just published %s to topic \"MSG_BOARD\"" % msg)
+            raw = {
+                "type":"msg_board",
+                "data":self.messageBoardInput.toPlainText()
+			}
+            payload = json.dumps(raw)
+            self.client.publish("MSG_BOARD", payload)
+            print("[MSG BOARD] Just published %s to topic \"MSG_BOARD\"" % payload)
         except Exception as e:
              print(f'[MSG BOARD] {e}')
     
