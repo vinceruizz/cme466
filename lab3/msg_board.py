@@ -43,9 +43,9 @@ def handleEmergency():
     while True:
         if emergencyStatus:
             gpio.output(ledPin, gpio.HIGH)
-            time.sleep(2)
+            time.sleep(0.25)
             gpio.output(ledPin, gpio.LOW)
-            time.sleep(2)
+            time.sleep(0.25)
         else:
             gpio.output(ledPin, gpio.LOW)
 

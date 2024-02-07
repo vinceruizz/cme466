@@ -228,9 +228,9 @@ class Ui_MainWindow(object):
         while True:
             if self.emergencyStatus:
                 self.updateEmergencyLightSignal.emit("red")
-                time.sleep(0.5)
+                time.sleep(0.25)
                 self.updateEmergencyLightSignal.emit("blue")
-                time.sleep(0.5)
+                time.sleep(0.25)
             else:
                 self.updateEmergencyLightSignal.emit("gray")
     
