@@ -5,12 +5,15 @@ import time
 
 def on_message(client, userdata, message):
     print("Received message")
-    payload = json.loads(message.payload)
-    type = payload["type"]
-    data = payload["data"]
-    print("Payload decoded")
-    if type == "msg_board":
-        print(f"[{type}] Received message: {str(data)}")
+    try:
+        payload = json.loads(message.payload)
+        type = payload["type"]
+        data = payload["data"]
+        print("Payload decoded")
+        if type == "msg_board":
+            print(f"[{type}] Received message: {str(data)}")
+    except Exception as e:
+        print(f"Error processing message: {e}")
 
 broker = "broker.hivemq.com"
 client = mqtt.Client("msg_board_client_ruiz")

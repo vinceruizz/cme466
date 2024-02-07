@@ -177,14 +177,17 @@ class Ui_MainWindow(object):
         self.tempSensorValueLabel.setText(str(temp))
                 
     def on_message(self, client, userdata, message):
-        payload = json.loads(message.payload)
-        type = payload["type"]
-        data = payload["data"]
-        print(f"[{type}] Received message: {str(data)}")
-        if type == "parking":
-            self.updateParkingSignal.emit(data)
-        if type == "temperature":
-            self.updateTemperatureSignal.emit(data)
+        try: 
+            payload = json.loads(message.payload)
+            type = payload["type"]
+            data = payload["data"]
+            print(f"[{type}] Received message: {str(data)}")
+            if type == "parking":
+                self.updateParkingSignal.emit(data)
+            if type == "temperature":
+                self.updateTemperatureSignal.emit(data)
+        except Exception as e:
+            print(f"Error processing message: {e}")
 
 
 
