@@ -4,9 +4,11 @@ import json
 import time
 
 def on_message(client, userdata, message):
+    print("Received message")
     payload = json.loads(message.payload)
     type = payload["type"]
     data = payload["data"]
+    print("Payload decoded")
     if type == "msg_board":
         print(f"[{type}] Received message: {str(data)}")
 

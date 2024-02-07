@@ -27,169 +27,98 @@ class Ui_MainWindow(object):
         MainWindow.resize(962, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 280, 951, 211))
-        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.messageboardLabel = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.messageboardLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.messageboardLabel.setObjectName("messageboardLabel")
-        self.verticalLayout.addWidget(self.messageboardLabel)
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem)
-        self.messageBoardInput = QtWidgets.QTextEdit(self.verticalLayoutWidget)
-        self.messageBoardInput.setObjectName("messageBoardInput")
-        self.horizontalLayout_4.addWidget(self.messageBoardInput)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem1)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
-        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem2)
-        self.messageBoardSend = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.messageBoardSend.sizePolicy().hasHeightForWidth())
-        self.messageBoardSend.setSizePolicy(sizePolicy)
-        self.messageBoardSend.setObjectName("messageBoardSend")
-        self.messageBoardSend.clicked.connect(self.sendBoardMessage)
-        self.horizontalLayout_6.addWidget(self.messageBoardSend)
-        spacerItem3 = QtWidgets.QSpacerItem(58, 17, QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_6.addItem(spacerItem3)
-        self.verticalLayout.addLayout(self.horizontalLayout_6)
-        self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(0, 10, 941, 261))
-        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem4)
-        self.parking1 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.parking1.sizePolicy().hasHeightForWidth())
-        self.parking1.setSizePolicy(sizePolicy)
-        self.parking1.setStyleSheet("background-color: red;\n"
-"border: 1px solid black;\n"
-"")
-        self.parking1.setAlignment(QtCore.Qt.AlignCenter)
-        self.parking1.setObjectName("parking1")
-        self.horizontalLayout.addWidget(self.parking1)
-        self.parking2 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.parking2.sizePolicy().hasHeightForWidth())
-        self.parking2.setSizePolicy(sizePolicy)
-        self.parking2.setStyleSheet("background-color: red;\n"
-"border: 1px solid black;\n"
-"")
-        self.parking2.setAlignment(QtCore.Qt.AlignCenter)
-        self.parking2.setObjectName("parking2")
-        self.horizontalLayout.addWidget(self.parking2)
-        self.parking3 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.parking3.sizePolicy().hasHeightForWidth())
-        self.parking3.setSizePolicy(sizePolicy)
-        self.parking3.setStyleSheet("background-color: red;\n"
-"border: 1px solid black;\n"
-"")
-        self.parking3.setAlignment(QtCore.Qt.AlignCenter)
-        self.parking3.setObjectName("parking3")
-        self.horizontalLayout.addWidget(self.parking3)
-        self.parking4 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.parking4.sizePolicy().hasHeightForWidth())
-        self.parking4.setSizePolicy(sizePolicy)
-        self.parking4.setStyleSheet("background-color: red;\n"
-"border: 1px solid black;\n"
-"")
-        self.parking4.setAlignment(QtCore.Qt.AlignCenter)
-        self.parking4.setObjectName("parking4")
-        self.horizontalLayout.addWidget(self.parking4)
-        self.parking5 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.parking5.sizePolicy().hasHeightForWidth())
-        self.parking5.setSizePolicy(sizePolicy)
-        self.parking5.setStyleSheet("background-color: red;\n"
-"border: 1px solid black;\n"
-"")
-        self.parking5.setAlignment(QtCore.Qt.AlignCenter)
-        self.parking5.setObjectName("parking5")
-        self.horizontalLayout.addWidget(self.parking5)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem5)
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.tempSensorLabel = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+
+        # Parking spots visualization frame and layout
+        self.parkingFrame = QtWidgets.QFrame(self.centralwidget)
+        self.parkingFrame.setGeometry(QtCore.QRect(20, 20, 920, 100))  # Adjust size and position as needed
+        self.parkingFrame.setStyleSheet("border: 1px solid black;")
+        self.parkingFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.parkingFrame.setObjectName("parkingFrame")
+        self.parkingLayout = QtWidgets.QHBoxLayout(self.parkingFrame)
+        # Initialize parking spot labels with numbers
+        for i in range(1, 6):
+            parkingSpot = QtWidgets.QLabel(self.parkingFrame)
+            parkingSpot.setStyleSheet("background-color: red; border: 1px solid black;")
+            parkingSpot.setAlignment(QtCore.Qt.AlignCenter)
+            parkingSpot.setObjectName(f"parking{i}")
+            parkingSpot.setText(str(i))  # Set text to show numbers
+            self.parkingLayout.addWidget(parkingSpot)
+            setattr(self, f'parking{i}', parkingSpot)
+
+        self.spots.extend([self.parking1, self.parking2, self.parking3, self.parking4, self.parking5])
+        print(len(self.spots))
+
+        # Temperature and Emergency Controls layout
+        self.controlsLayout = QtWidgets.QHBoxLayout()
+
+        # Temperature frame and layout
+        self.tempFrame = QtWidgets.QFrame(self.centralwidget)
+        self.tempFrame.setStyleSheet("border: 1px solid black;")
+        self.tempFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.tempLayout = QtWidgets.QVBoxLayout(self.tempFrame)
+        self.tempSensorLabel = QtWidgets.QLabel("Temperature Sensor", self.tempFrame)
         self.tempSensorLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.tempSensorLabel.setObjectName("tempSensorLabel")
-        self.verticalLayout_3.addWidget(self.tempSensorLabel)
-        self.tempSensorValueLabel = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.tempLayout.addWidget(self.tempSensorLabel)
+        self.tempSensorValueLabel = QtWidgets.QLabel("Placeholder", self.tempFrame)
         self.tempSensorValueLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.tempSensorValueLabel.setObjectName("tempSensorValueLabel")
-        self.verticalLayout_3.addWidget(self.tempSensorValueLabel)
-        self.horizontalLayout_2.addLayout(self.verticalLayout_3)
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setContentsMargins(-1, -1, -1, 12)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.emergencyOffButton = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.emergencyOffButton.sizePolicy().hasHeightForWidth())
-        self.emergencyOffButton.setSizePolicy(sizePolicy)
-        self.emergencyOffButton.setStyleSheet("background-color: red;\n"
-"border-radius: 50%;\n"
-"border: 1px solid black;\n"
-"line-height: 50px;\n"
-"width: 50px;\n"
-"height: 50px;")
-        self.emergencyOffButton.setObjectName("emergencyOffButton")
-        self.horizontalLayout_3.addWidget(self.emergencyOffButton)
-        self.emergencyOffLabel = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.emergencyOffLabel.setObjectName("emergencyOffLabel")
-        self.horizontalLayout_3.addWidget(self.emergencyOffLabel)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_3)
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.emergencyOnButton = emergencyLightGraphic()
-        self.emergencyOnButton.setObjectName("emergencyOnButton")
-        self.horizontalLayout_5.addWidget(self.emergencyOnButton)
-        self.emergencyOnLabel = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.emergencyOnLabel.setObjectName("emergencyOnLabel")
-        self.horizontalLayout_5.addWidget(self.emergencyOnLabel)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
-        self.horizontalLayout_2.addLayout(self.verticalLayout_4)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.tempLayout.addWidget(self.tempSensorValueLabel)
+        self.controlsLayout.addWidget(self.tempFrame)
+
+        # Emergency frame and layout
+        self.emergencyFrame = QtWidgets.QFrame(self.centralwidget)
+        self.emergencyFrame.setStyleSheet("border: 1px solid black;")
+        self.emergencyFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.emergencyLayout = QtWidgets.QVBoxLayout(self.emergencyFrame)
+        # Assuming this label is used for visual indication
+        self.emergencyLabel = QtWidgets.QLabel(self.emergencyFrame)
+        self.emergencyLabel.setObjectName("emergencyLabel")
+        self.emergencyLabel.setStyleSheet("""
+            QLabel {
+                background-color: gray;
+                border: 2px solid black;
+                border-radius: 25px;  /* Adjust this value to half of your QLabel's width and height to make it circular */
+            }
+        """)
+        self.emergencyLabel.setMinimumSize(50, 50)  # Ensures the label is large enough to appear circular
+        self.emergencyLabel.setMaximumSize(50, 50)  # Keeps the label's size fixed
+        self.emergencyLabel.setAlignment(QtCore.Qt.AlignCenter)  # Center the text (if any)
+        self.emergencyLayout.addWidget(self.emergencyLabel)
+        self.controlsLayout.addWidget(self.emergencyFrame)
+        self.emergencyOffButton = QtWidgets.QPushButton("Emergency Off", self.emergencyFrame)
+        self.emergencyLayout.addWidget(self.emergencyOffButton)
+        self.emergencyOnButton = QtWidgets.QPushButton("Emergency On", self.emergencyFrame)
+        self.emergencyLayout.addWidget(self.emergencyOnButton)
+        spacerLeft = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerRight = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.emergencyLayout.addSpacerItem(spacerLeft)  # Add spacer before the label
+        self.emergencyLayout.addWidget(self.emergencyLabel, 0, QtCore.Qt.AlignCenter)  # Add the label centered
+        self.emergencyLayout.addSpacerItem(spacerRight)  # Add spacer after the label
+
+        # Message board frame and layout
+        self.messageBoardFrame = QtWidgets.QFrame(self.centralwidget)
+        self.messageBoardFrame.setGeometry(QtCore.QRect(20, 240, 920, 150))  # Adjust as needed
+        self.messageBoardFrame.setStyleSheet("border: 1px solid black;")
+        self.messageBoardFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.messageBoardLayout = QtWidgets.QVBoxLayout(self.messageBoardFrame)
+        self.messageboardLabel = QtWidgets.QLabel("Display message to display board", self.messageBoardFrame)
+        self.messageboardLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.messageBoardLayout.addWidget(self.messageboardLabel)
+        self.messageBoardInput = QtWidgets.QTextEdit(self.messageBoardFrame)
+        self.messageBoardLayout.addWidget(self.messageBoardInput)
+        self.messageBoardSend = QtWidgets.QPushButton("Display", self.messageBoardFrame)
+        self.messageBoardSend.clicked.connect(self.sendBoardMessage)
+        self.messageBoardLayout.addWidget(self.messageBoardSend)
+
+        # Central widget layout
+        self.centralLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.centralLayout.addWidget(self.parkingFrame)
+        self.centralLayout.addLayout(self.controlsLayout)
+        self.centralLayout.addWidget(self.messageBoardFrame)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 962, 24))
-        self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
@@ -197,19 +126,15 @@ class Ui_MainWindow(object):
 
         self.updateParkingSignal.connect(self.updateParking)
         self.updateTemperatureSignal.connect(self.updateTemperature)
-
-        
         self.client.connect(self.broker)
         self.client.loop_start()
         self.client.subscribe("parking_ruiz")
         self.client.on_message = self.on_message
 
-        self.spots.extend([self.parking1, self.parking2, self.parking3, self.parking4, self.parking5])
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.messageboardLabel.setText(_translate("MainWindow", "Display message to display board"))
+        self.messageboardLabel.setText(_translate("MainWindow", "Send message to display board"))
         self.messageBoardInput.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -222,11 +147,10 @@ class Ui_MainWindow(object):
         self.parking3.setText(_translate("MainWindow", "3"))
         self.parking4.setText(_translate("MainWindow", "4"))
         self.parking5.setText(_translate("MainWindow", "5"))
-        self.tempSensorLabel.setText(_translate("MainWindow", "Parking Lot Temperature Sensor"))
+        self.tempSensorLabel.setText(_translate("MainWindow", "Temperature Sensor"))
         self.tempSensorValueLabel.setText(_translate("MainWindow", "Placeholder"))
-        self.emergencyOffButton.setText(_translate("MainWindow", "PushButton"))
-        self.emergencyOffLabel.setText(_translate("MainWindow", "Turn Emergency Light Off"))
-        self.emergencyOnLabel.setText(_translate("MainWindow", "Turn Emergency Light On"))
+        self.emergencyOffButton.setText(_translate("MainWindow", "Turn Emergency Light Off"))
+        self.emergencyOnButton.setText(_translate("MainWindow", "Turn Emergency Light On"))
 
     def sendBoardMessage(self):
         try:
@@ -243,13 +167,11 @@ class Ui_MainWindow(object):
 
     def updateParking(self, parking):
         for i in range(0, len(parking)):
-            if parking[i] == True:
-                self.spots[i].setStyleSheet("background-color: red;\n"
-"border: 1px solid black;\n"
-"")
+            if parking[i]:
+                self.spots[i].setStyleSheet("background-color: green; border: 1px solid black;")
             else:
-                self.spots[i].setStyleSheet("background-color: green;\n"
-                                            "border: 1px solid black;\n""")
+                self.spots[i].setStyleSheet("background-color: red; border: 1px solid black;")
+
                 
     def updateTemperature(self, temp):
         self.tempSensorValueLabel.setText(str(temp))
