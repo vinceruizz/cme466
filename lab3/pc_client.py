@@ -29,11 +29,14 @@ class Ui_MainWindow(object):
     emergencyStatus = False
 
     def setupUi(self, MainWindow):
+
+        # setup main window
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(962, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
+        # setup parking frame and widgets
         self.parkingFrame = QtWidgets.QFrame(self.centralwidget)
         self.parkingFrame.setGeometry(QtCore.QRect(20, 20, 920, 100))
         self.parkingFrame.setStyleSheet("border: 1px solid black;")
@@ -41,6 +44,7 @@ class Ui_MainWindow(object):
         self.parkingFrame.setObjectName("parkingFrame")
         self.parkingLayout = QtWidgets.QHBoxLayout(self.parkingFrame)
 
+        # create 5 parking spots
         for i in range(1, 6):
             parkingSpot = QtWidgets.QLabel(self.parkingFrame)
             parkingSpot.setStyleSheet("background-color: red; border: 1px solid black;")
@@ -50,10 +54,12 @@ class Ui_MainWindow(object):
             self.parkingLayout.addWidget(parkingSpot)
             setattr(self, f'parking{i}', parkingSpot)
 
+        # add each of the parking spots to a list to be used when setting the styles to indicate vacancy
         self.spots.extend([self.parking1, self.parking2, self.parking3, self.parking4, self.parking5])
 
         self.controlsLayout = QtWidgets.QHBoxLayout()
 
+        # setup the temperature frame
         self.tempFrame = QtWidgets.QFrame(self.centralwidget)
         self.tempFrame.setStyleSheet("border: 1px solid black;")
         self.tempFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -68,26 +74,27 @@ class Ui_MainWindow(object):
         self.tempLayout.addWidget(self.tempSensorValueLabel)
         self.controlsLayout.addWidget(self.tempFrame)
 
+        # setup the emergency frame
         self.emergencyFrame = QtWidgets.QFrame(self.centralwidget)
         self.emergencyFrame.setStyleSheet("border: 1px solid black;")
         self.emergencyFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.emergencyLayout = QtWidgets.QVBoxLayout(self.emergencyFrame)
-        self.emergencyLabel = QtWidgets.QLabel(self.emergencyFrame)
+        self.emergencyLabel = QtWidgets.QLabel(self.emergencyFrame) # emergency light preview
         self.emergencyLabel.setObjectName("emergencyLabel")
         self.emergencyLabel.setStyleSheet("""
             QLabel {
                 background-color: gray;
                 border: 2px solid black;
-                border-radius: 25px;  /* Adjust this value to half of your QLabel's width and height to make it circular */
+                border-radius: 25px;
             }
-        """)
+        """) #rounded emergency light
         self.emergencyLabel.setMinimumSize(50, 50)
         self.emergencyLabel.setMaximumSize(50, 50)
         self.emergencyLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.emergencyLayout.addWidget(self.emergencyLabel)
         self.controlsLayout.addWidget(self.emergencyFrame)
         self.emergencyOffButton = QtWidgets.QPushButton("Emergency Off", self.emergencyFrame)
-        self.emergencyOffButton.clicked.connect(self.updateEmergencyStatusOff)
+        self.emergencyOffButton.clicked.connect(self.updateEmergencyStatusOff) # call the updateEmergencyStatusOn helper function
         self.emergencyOffButton.setStyleSheet("""
             QPushButton {
                 background-color: #f0f0f0;
@@ -106,7 +113,7 @@ class Ui_MainWindow(object):
         """)
         self.emergencyLayout.addWidget(self.emergencyOffButton)
         self.emergencyOnButton = QtWidgets.QPushButton("Emergency On", self.emergencyFrame)
-        self.emergencyOnButton.clicked.connect(self.updateEmergencyStatusOn)
+        self.emergencyOnButton.clicked.connect(self.updateEmergencyStatusOn) # call the updateEmergencyStatusOn helper function
         self.emergencyOnButton.setStyleSheet("""
             QPushButton {
                 background-color: #f0f0f0;
@@ -130,6 +137,7 @@ class Ui_MainWindow(object):
         self.emergencyLayout.addWidget(self.emergencyLabel, 0, QtCore.Qt.AlignCenter)
         self.emergencyLayout.addSpacerItem(spacerRight)
 
+        # setup frame for the message board
         self.messageBoardFrame = QtWidgets.QFrame(self.centralwidget)
         self.messageBoardFrame.setGeometry(QtCore.QRect(20, 240, 920, 150))
         self.messageBoardFrame.setStyleSheet("border: 1px solid black;")
@@ -160,6 +168,7 @@ class Ui_MainWindow(object):
         self.messageBoardSend.clicked.connect(self.sendBoardMessage)
         self.messageBoardLayout.addWidget(self.messageBoardSend)
 
+        # add everything to a central layout
         self.centralLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.centralLayout.addWidget(self.parkingFrame)
         self.centralLayout.addLayout(self.controlsLayout)
@@ -174,15 +183,19 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        # setup a thread to handle the logic for blinking the emergency light (client side)
         self.emergencyThread = threading.Thread(target=self.handleEmergency)
         self.emergencyThread.daemon = True
         self.emergencyThread.start()
 
+        # connect all signals to their respective functions
         self.updateParkingSignal.connect(self.updateParking)
         self.updateTemperatureSignal.connect(self.updateTemperature)
         self.updateEmergencySignalOn.connect(self.updateEmergencyStatusOn)
         self.updateEmergencySignalOff.connect(self.updateEmergencyStatusOff)
         self.updateEmergencyLightSignal.connect(self.updateEmergencyLight)
+
+        #connect to broker and subscribe to parking_ruiz and temperature_ruiz topics
         self.client.connect(self.broker)
         self.client.loop_start()
         self.client.subscribe("parking_ruiz")
@@ -210,6 +223,23 @@ class Ui_MainWindow(object):
         self.emergencyOffButton.setText(_translate("MainWindow", "Turn Emergency Light Off"))
         self.emergencyOnButton.setText(_translate("MainWindow", "Turn Emergency Light On"))
 
+    # each mqtt message will have a type attribute and data
+    def on_message(self, client, userdata, message):
+        try: 
+            payload = json.loads(message.payload)
+            type = payload["type"]
+            data = payload["data"]
+            print(f"[{type}] Received message: {str(data)}")
+
+            # emit the appropriate signal based on data received
+            if type == "parking":
+                self.updateParkingSignal.emit(data)
+            if type == "temperature":
+                self.updateTemperatureSignal.emit(data)
+        except Exception as e:
+            print(f"Error processing message: {e}")
+
+    # handler for sending message to the display board
     def sendBoardMessage(self):
         try:
             raw = {
@@ -222,31 +252,20 @@ class Ui_MainWindow(object):
         except Exception as e:
              print(f'[MSG BOARD] {e}') 
 
+    # handler for updating the styles for each parking spot based on its vacancy
     def updateParking(self, parking):
-        for i in range(0, len(parking)):
-            if parking[i]:
-                self.spots[i].setStyleSheet("background-color: green; border: 1px solid black;")
+        for i in range(0, len(parking)): # for each parking spot number
+            if parking[i]: # if the parking spot is taken
+                self.spots[i].setStyleSheet("background-color: green; border: 1px solid black;") # set the appopriate parking spot to green
             else:
-                self.spots[i].setStyleSheet("background-color: red; border: 1px solid black;")
+                self.spots[i].setStyleSheet("background-color: red; border: 1px solid black;") # set the appopriate parking spot to red
 
-                
+    # handler for updating the temperature display 
     def updateTemperature(self, temp):
         result = round(temp, 2)
         self.tempSensorValueLabel.setText(str(result) + " o C")
-                
-    def on_message(self, client, userdata, message):
-        try: 
-            payload = json.loads(message.payload)
-            type = payload["type"]
-            data = payload["data"]
-            print(f"[{type}] Received message: {str(data)}")
-            if type == "parking":
-                self.updateParkingSignal.emit(data)
-            if type == "temperature":
-                self.updateTemperatureSignal.emit(data)
-        except Exception as e:
-            print(f"Error processing message: {e}")
 
+    # helper functions that sets the emergencyStatus flag and sends the appropriate signal to the publisher function
     def updateEmergencyStatusOn(self):
         self.emergencyStatus = True 
         self.sendEmergencySignal(True)
@@ -255,7 +274,7 @@ class Ui_MainWindow(object):
         self.emergencyStatus = False
         self.sendEmergencySignal(False)
     
-
+    # publishes the appropriate emergency signal to the "emergency topic"
     def sendEmergencySignal(self, status):
         try:
             raw = {
@@ -268,16 +287,18 @@ class Ui_MainWindow(object):
         except Exception as e:
              print(f'[emergency] {e}')   
 
+    # handler for updating the emergency light preview graphic on the client side. This will run in a thread
     def handleEmergency(self):
         while True:
-            if self.emergencyStatus:
+            if self.emergencyStatus: # blink red and blue every 0.25 seconds
                 self.updateEmergencyLightSignal.emit("red")
                 time.sleep(0.25)
                 self.updateEmergencyLightSignal.emit("blue")
                 time.sleep(0.25)
             else:
-                self.updateEmergencyLightSignal.emit("gray")
+                self.updateEmergencyLightSignal.emit("gray") # gray if the emergency signal reads False (off)
     
+    # helper function for updating the emergency light preview graphic on the client side.
     def updateEmergencyLight(self, color):
         stylesheet = f"""
             QLabel {{
@@ -287,14 +308,6 @@ class Ui_MainWindow(object):
             }}
         """
         self.emergencyLabel.setStyleSheet(stylesheet)
-
-class emergencyLightGraphic(QtWidgets.QWidget):
-    def paintEvent(self, event):
-        painter = QtGui.QPainter(self)
-        painter.setBrush(QtGui.QBrush(QtCore.Qt.red))
-        painter.drawEllipse(160,0,50, 50)
-
-
 
 class MyApplication(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):

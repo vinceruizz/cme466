@@ -6,15 +6,15 @@ import time
 import smbus
 import RPi.GPIO as gpio
 
+# global emergency status and temperature variables
 emergencyStatus = False
+temp = 0
 
+# setup gpio
 i2c = smbus.SMBus(1)
 ledPin = 19
-
 gpio.setmode(gpio.BCM)
 gpio.setup(ledPin, gpio.OUT)
-
-temp = 0
 
 def on_message(client, userdata, message):
     global emergencyStatus
@@ -40,6 +40,7 @@ try:
 except Exception as e:
     print(f"Error connecting to broker: {e}")
 
+# depending on the emergencyStatus, either sets the led output to low (off), or blinks on and off
 def handleEmergency():
     global emergencyStatus
 
@@ -52,6 +53,7 @@ def handleEmergency():
         else:
             gpio.output(ledPin, gpio.LOW)
 
+# threaded loop that continuously reads values from the temperature sensor and updates the temperature variable
 def readTemperature():
     global temp
     while True:
@@ -64,6 +66,7 @@ def readTemperature():
         temp = 1/(((math.log(Rt / 10000)) / 3950) + (1 / (273.15+25)))
         temp = temp - 273.15
 
+# handler for publishing the converted temperature value
 def sendTemperature():
     global temp
 
@@ -77,7 +80,7 @@ def sendTemperature():
         print(f"[temperature] Just published {payload} to topic 'temperature;")
         time.sleep(5)
 
-
+# threaded parking simulation. Publishes a new set of parking data every 5 seconds
 def simulate_parking():
     dataset = [
         [True, False, True, True, True],
@@ -106,6 +109,7 @@ def simulate_parking():
         print(f"[msg_board] Just published {payload} to topic 'parking_ruiz;")
         time.sleep(5)
 
+# thread setup
 x1 = threading.Thread(target=simulate_parking)
 x2 = threading.Thread(target=handleEmergency)
 x3 = threading.Thread(target=readTemperature)
@@ -115,6 +119,7 @@ x2.start()
 x3.start()
 x4.start()
 
+# mqtt client setup
 client.loop_start()
 client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
 client.subscribe("emergency")
