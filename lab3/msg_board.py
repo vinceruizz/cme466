@@ -19,6 +19,7 @@ try:
     broker = "mqtt.eclipseprojects.io"
     client = mqtt.Client("msg_board_client_ruiz")
     client.connect(broker)
+    print("Connected to broker")
 except Exception as e:
     print(f"Error connecting to broker: {e}")
 
@@ -48,6 +49,7 @@ def simulate_parking():
         }
         payload = json.dumps(msg)
         client.publish("parking_ruiz", payload)
+        print(f"Just published {payload} to topic 'parking_ruiz;")
         time.sleep(5)
 
 x1 = threading.Thread(target=simulate_parking)
