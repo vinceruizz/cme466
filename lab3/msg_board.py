@@ -48,7 +48,11 @@ def simulate_parking():
         [True, True, False, False, True]
     ]
     for set in dataset:
-        payload = json.dumps(set)
+        msg = {
+            "type":"parking",
+            "data":set
+        }
+        payload = json.dumps(msg)
         client.publish("parking_ruiz", payload)
         time.sleep(10)
 
