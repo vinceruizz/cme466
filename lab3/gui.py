@@ -21,6 +21,7 @@ class Ui_MainWindow(object):
     broker = 'mqtt.eclipseprojects.io'
     client = mqtt.Client("gui_ruiz")
     spots = []
+    client.connect(broker)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -154,7 +155,6 @@ class Ui_MainWindow(object):
 
     def sendBoardMessage(self):
         try:
-            self.client.connect(self.broker)
             raw = {
                 "type":"msg_board",
                 "data":self.messageBoardInput.toPlainText()

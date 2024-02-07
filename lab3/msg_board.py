@@ -4,12 +4,10 @@ import json
 import time
 
 def on_message(client, userdata, message):
-    print("Received message")
     try:
         payload = json.loads(message.payload)
         type = payload["type"]
         data = payload["data"]
-        print("Payload decoded")
         if type == "msg_board":
             print(f"[{type}] Received message: {str(data)}")
     except Exception as e:
@@ -19,7 +17,6 @@ try:
     broker = "mqtt.eclipseprojects.io"
     client = mqtt.Client("msg_board_client_ruiz")
     client.connect(broker)
-    print("Connected to broker")
 except Exception as e:
     print(f"Error connecting to broker: {e}")
 
@@ -49,16 +46,14 @@ def simulate_parking():
         }
         payload = json.dumps(msg)
         client.publish("parking_ruiz", payload)
-        print(f"Just published {payload} to topic 'parking_ruiz;")
+        print(f"[msg_board] Just published {payload} to topic 'parking_ruiz;")
         time.sleep(5)
 
 x1 = threading.Thread(target=simulate_parking)
 x1.start()
-# x2 = threading.Thread(target=manage_connection)
-# x2.start()
 
 client.loop_start()
 client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
 client.on_message = on_message
-time.sleep(10000000)
+time.sleep(100000)
 client.loop_stop()
