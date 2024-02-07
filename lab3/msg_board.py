@@ -19,23 +19,6 @@ broker = "mqtt.eclipseprojects.io"
 client = mqtt.Client("msg_board_client_ruiz")
 client.connect(broker)
 
-
-client.loop_start()
-client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
-client.on_message = on_message
-time.sleep(10000000)
-client.loop_stop()
-
-def manage_connection():
-    while True:
-        manage_connection = input(">> ")
-        if manage_connection == "end":
-            client.loop_stop()
-            print("connection to broker ended")
-        if manage_connection == "start":
-            client.loop_start()
-            print("connection to broker started")
-
 def simulate_parking():
     dataset = [
         [True, False, True, True, True],
@@ -67,3 +50,9 @@ x1 = threading.Thread(target=simulate_parking)
 x1.start()
 # x2 = threading.Thread(target=manage_connection)
 # x2.start()
+
+client.loop_start()
+client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
+client.on_message = on_message
+time.sleep(10000000)
+client.loop_stop()
