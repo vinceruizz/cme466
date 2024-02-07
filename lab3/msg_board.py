@@ -1,3 +1,4 @@
+import math
 import paho.mqtt.client as mqtt
 import threading
 import json
@@ -12,6 +13,8 @@ ledPin = 19
 
 gpio.setmode(gpio.BCM)
 gpio.setup(ledPin, gpio.OUT)
+
+temp = 0
 
 def on_message(client, userdata, message):
     global emergencyStatus
@@ -49,6 +52,19 @@ def handleEmergency():
         else:
             gpio.output(ledPin, gpio.LOW)
 
+def readTemperature():
+    global temp
+    while True:
+        i2c.write_byte(0x48, 0x40)
+        i2c.read_byte(0x48)
+        result = i2c.read_byte(0x48)
+
+        Vr = 5 * float(result) / 255
+        Rt = 10000 * Vr / (5 - Vr)
+        temp = 1/(((math.log(Rt / 10000)) / 3950) + (1 / (273.15+25)))
+        temp = temp - 273.15
+        print ('temperature = ', temp, 'C')
+
 
 def simulate_parking():
     dataset = [
@@ -80,6 +96,7 @@ def simulate_parking():
 
 x1 = threading.Thread(target=simulate_parking)
 x2 = threading.Thread(target=handleEmergency)
+x3 = threading.Thread(target=readTemperature)
 x1.start()
 x2.start()
 
