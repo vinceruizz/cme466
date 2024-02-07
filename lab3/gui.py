@@ -34,47 +34,44 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
-        # Parking spots visualization frame and layout
         self.parkingFrame = QtWidgets.QFrame(self.centralwidget)
-        self.parkingFrame.setGeometry(QtCore.QRect(20, 20, 920, 100))  # Adjust size and position as needed
+        self.parkingFrame.setGeometry(QtCore.QRect(20, 20, 920, 100))
         self.parkingFrame.setStyleSheet("border: 1px solid black;")
         self.parkingFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.parkingFrame.setObjectName("parkingFrame")
         self.parkingLayout = QtWidgets.QHBoxLayout(self.parkingFrame)
-        # Initialize parking spot labels with numbers
+
         for i in range(1, 6):
             parkingSpot = QtWidgets.QLabel(self.parkingFrame)
             parkingSpot.setStyleSheet("background-color: red; border: 1px solid black;")
             parkingSpot.setAlignment(QtCore.Qt.AlignCenter)
             parkingSpot.setObjectName(f"parking{i}")
-            parkingSpot.setText(str(i))  # Set text to show numbers
+            parkingSpot.setText(str(i))
             self.parkingLayout.addWidget(parkingSpot)
             setattr(self, f'parking{i}', parkingSpot)
 
         self.spots.extend([self.parking1, self.parking2, self.parking3, self.parking4, self.parking5])
 
-        # Temperature and Emergency Controls layout
         self.controlsLayout = QtWidgets.QHBoxLayout()
 
-        # Temperature frame and layout
         self.tempFrame = QtWidgets.QFrame(self.centralwidget)
         self.tempFrame.setStyleSheet("border: 1px solid black;")
         self.tempFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.tempLayout = QtWidgets.QVBoxLayout(self.tempFrame)
         self.tempSensorLabel = QtWidgets.QLabel("Temperature Sensor", self.tempFrame)
         self.tempSensorLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.tempSensorLabel.setStyleSheet("padding: 10px;")
         self.tempLayout.addWidget(self.tempSensorLabel)
         self.tempSensorValueLabel = QtWidgets.QLabel("Placeholder", self.tempFrame)
         self.tempSensorValueLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.tempSensorValueLabel.setStyleSheet("padding: 10px;")
         self.tempLayout.addWidget(self.tempSensorValueLabel)
         self.controlsLayout.addWidget(self.tempFrame)
 
-        # Emergency frame and layout
         self.emergencyFrame = QtWidgets.QFrame(self.centralwidget)
         self.emergencyFrame.setStyleSheet("border: 1px solid black;")
         self.emergencyFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.emergencyLayout = QtWidgets.QVBoxLayout(self.emergencyFrame)
-        # Assuming this label is used for visual indication
         self.emergencyLabel = QtWidgets.QLabel(self.emergencyFrame)
         self.emergencyLabel.setObjectName("emergencyLabel")
         self.emergencyLabel.setStyleSheet("""
@@ -84,26 +81,57 @@ class Ui_MainWindow(object):
                 border-radius: 25px;  /* Adjust this value to half of your QLabel's width and height to make it circular */
             }
         """)
-        self.emergencyLabel.setMinimumSize(50, 50)  # Ensures the label is large enough to appear circular
-        self.emergencyLabel.setMaximumSize(50, 50)  # Keeps the label's size fixed
-        self.emergencyLabel.setAlignment(QtCore.Qt.AlignCenter)  # Center the text (if any)
+        self.emergencyLabel.setMinimumSize(50, 50)
+        self.emergencyLabel.setMaximumSize(50, 50)
+        self.emergencyLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.emergencyLayout.addWidget(self.emergencyLabel)
         self.controlsLayout.addWidget(self.emergencyFrame)
         self.emergencyOffButton = QtWidgets.QPushButton("Emergency Off", self.emergencyFrame)
         self.emergencyOffButton.clicked.connect(self.updateEmergencyStatusOff)
+        self.emergencyOffButton.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f0f0;
+                color: black;
+                border: 1px solid #c0c0c0;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #007bff;
+                color: white;
+            }
+            QPushButton:pressed {
+                background-color:
+                border-style: inset;
+            }
+        """)
         self.emergencyLayout.addWidget(self.emergencyOffButton)
         self.emergencyOnButton = QtWidgets.QPushButton("Emergency On", self.emergencyFrame)
         self.emergencyOnButton.clicked.connect(self.updateEmergencyStatusOn)
+        self.emergencyOnButton.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f0f0;
+                color: black;
+                border: 1px solid #c0c0c0;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #007bff;
+                color: white;
+            }
+            QPushButton:pressed {
+                background-color:
+                border-style: inset;
+            }
+        """)
         self.emergencyLayout.addWidget(self.emergencyOnButton)
         spacerLeft = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         spacerRight = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.emergencyLayout.addSpacerItem(spacerLeft)  # Add spacer before the label
-        self.emergencyLayout.addWidget(self.emergencyLabel, 0, QtCore.Qt.AlignCenter)  # Add the label centered
-        self.emergencyLayout.addSpacerItem(spacerRight)  # Add spacer after the label
+        self.emergencyLayout.addSpacerItem(spacerLeft)
+        self.emergencyLayout.addWidget(self.emergencyLabel, 0, QtCore.Qt.AlignCenter)
+        self.emergencyLayout.addSpacerItem(spacerRight)
 
-        # Message board frame and layout
         self.messageBoardFrame = QtWidgets.QFrame(self.centralwidget)
-        self.messageBoardFrame.setGeometry(QtCore.QRect(20, 240, 920, 150))  # Adjust as needed
+        self.messageBoardFrame.setGeometry(QtCore.QRect(20, 240, 920, 150))
         self.messageBoardFrame.setStyleSheet("border: 1px solid black;")
         self.messageBoardFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.messageBoardLayout = QtWidgets.QVBoxLayout(self.messageBoardFrame)
@@ -113,10 +141,25 @@ class Ui_MainWindow(object):
         self.messageBoardInput = QtWidgets.QTextEdit(self.messageBoardFrame)
         self.messageBoardLayout.addWidget(self.messageBoardInput)
         self.messageBoardSend = QtWidgets.QPushButton("Display", self.messageBoardFrame)
+        self.messageBoardSend.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f0f0;
+                color: black;
+                border: 1px solid #c0c0c0;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #007bff;
+                color: white;
+            }
+            QPushButton:pressed {
+                background-color:
+                border-style: inset;
+            }
+        """)
         self.messageBoardSend.clicked.connect(self.sendBoardMessage)
         self.messageBoardLayout.addWidget(self.messageBoardSend)
 
-        # Central widget layout
         self.centralLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.centralLayout.addWidget(self.parkingFrame)
         self.centralLayout.addLayout(self.controlsLayout)
@@ -131,9 +174,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        # Initialize the thread for handling emergency light simulation
         self.emergencyThread = threading.Thread(target=self.handleEmergency)
-        self.emergencyThread.daemon = True  # Optional: Makes the thread a daemon so it automatically closes with the main program
+        self.emergencyThread.daemon = True
         self.emergencyThread.start()
 
         self.updateParkingSignal.connect(self.updateParking)
@@ -144,6 +186,7 @@ class Ui_MainWindow(object):
         self.client.connect(self.broker)
         self.client.loop_start()
         self.client.subscribe("parking_ruiz")
+        self.client.subscribe("temperature_ruiz")
         self.client.on_message = self.on_message
 
     def retranslateUi(self, MainWindow):
@@ -151,19 +194,19 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.messageboardLabel.setText(_translate("MainWindow", "Send message to display board"))
         self.messageBoardInput.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+        "p, li { white-space: pre-wrap; }\n"
+        "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+        "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.messageBoardInput.setPlaceholderText(_translate("MainWindow", "Type message here"))
-        self.messageBoardSend.setText(_translate("MainWindow", "Display"))
+        self.messageBoardSend.setText(_translate("MainWindow", "Send"))
         self.parking1.setText(_translate("MainWindow", "1"))
         self.parking2.setText(_translate("MainWindow", "2"))
         self.parking3.setText(_translate("MainWindow", "3"))
         self.parking4.setText(_translate("MainWindow", "4"))
         self.parking5.setText(_translate("MainWindow", "5"))
         self.tempSensorLabel.setText(_translate("MainWindow", "Temperature Sensor"))
-        self.tempSensorValueLabel.setText(_translate("MainWindow", "Placeholder"))
+        self.tempSensorValueLabel.setText(_translate("MainWindow", ""))
         self.emergencyOffButton.setText(_translate("MainWindow", "Turn Emergency Light Off"))
         self.emergencyOnButton.setText(_translate("MainWindow", "Turn Emergency Light On"))
 
@@ -188,7 +231,8 @@ class Ui_MainWindow(object):
 
                 
     def updateTemperature(self, temp):
-        self.tempSensorValueLabel.setText(str(temp))
+        result = round(temp, 2)
+        self.tempSensorValueLabel.setText(str(result) + " o C")
                 
     def on_message(self, client, userdata, message):
         try: 
