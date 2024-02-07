@@ -55,3 +55,5 @@ def simulate_parking():
 
 x2 = threading.Thread(target=manage_connection)
 x2.start()
+
+simulate_parking()
