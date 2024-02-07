@@ -21,15 +21,15 @@ client.loop_start()
 client.subscribe("MSG_BOARD") # you can change the QoS by adding parameter qos=x (replace x with desired QoS level (0, 1, 2)
 client.on_message = on_message
 
-def manage_connection():
-    while True:
-        manage_connection = input(">> ")
-        if manage_connection == "end":
-            client.loop_stop()
-            print("connection to broker ended")
-        if manage_connection == "start":
-            client.loop_start()
-            print("connection to broker started")
+# def manage_connection():
+#     while True:
+#         manage_connection = input(">> ")
+#         if manage_connection == "end":
+#             client.loop_stop()
+#             print("connection to broker ended")
+#         if manage_connection == "start":
+#             client.loop_start()
+#             print("connection to broker started")
 
 def simulate_parking():
     dataset = [
@@ -59,7 +59,7 @@ def simulate_parking():
         time.sleep(5)
 
 
-x2 = threading.Thread(target=manage_connection)
-x2.start()
+# x2 = threading.Thread(target=manage_connection)
+# x2.start()
 
 simulate_parking()
