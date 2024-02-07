@@ -15,9 +15,13 @@ def on_message(client, userdata, message):
     except Exception as e:
         print(f"Error processing message: {e}")
 
-broker = "mqtt.eclipseprojects.io"
-client = mqtt.Client("msg_board_client_ruiz")
-client.connect(broker)
+try:
+    broker = "mqtt.eclipseprojects.io"
+    client = mqtt.Client("msg_board_client_ruiz")
+    client.connect(broker)
+except Exception as e:
+    print(f"Error connecting to broker: {e}")
+
 
 def simulate_parking():
     dataset = [
