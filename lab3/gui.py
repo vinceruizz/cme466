@@ -16,6 +16,8 @@ import json
 
 
 class Ui_MainWindow(object):
+    updateParkingSignal = QtCore.pyqtSignal(list)
+    updateTemperatureSignal  = QtCore.pyqtSignal(float)
     broker = 'broker.hivemq.com'
     client = mqtt.Client("gui_ruiz")
     spots = []
@@ -192,6 +194,10 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        self.updateParkingSignal.connect(self.updateParking)
+        self.updateTemperatureSignal.connect(self.updateTemperature)
+
         
         self.client.connect(self.broker)
         self.client.loop_start()
@@ -243,16 +249,20 @@ class Ui_MainWindow(object):
 "")
             else:
                 self.spots[i].setStyleSheet("background-color: green;\n"
-"border: 1px solid black;\n"
-"")
+                                            "border: 1px solid black;\n""")
+                
+    def updateTemperature(self, temp):
+        self.tempSensorValueLabel.setText(str(temp))
                 
     def on_message(self, client, userdata, message):
         payload = json.loads(message.payload)
         type = payload["type"]
         data = payload["data"]
+        print(f"[{type}] Received message: {str(data)}")
         if type == "parking":
-            print(f"[{type}] Received message: {str(data)}")
-            self.updateParking(data)
+            self.updateParkingSignal.emit(data)
+        if type == "temperature":
+            self.updateTemperatureSignal.emit(data)
 
 
 

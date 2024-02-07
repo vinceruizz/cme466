@@ -54,7 +54,7 @@ def simulate_parking():
         }
         payload = json.dumps(msg)
         client.publish("parking_ruiz", payload)
-        time.sleep(10)
+        time.sleep(5)
 
 
 x2 = threading.Thread(target=manage_connection)
