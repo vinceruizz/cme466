@@ -27,7 +27,6 @@ class Ui_MainWindow(object):
     spots = []
     client.connect(broker)
     emergencyStatus = False
-    currentTheme = 'dark'
 
     # manually refactored GUI setup due to difficulties with QtDesigner
     def setupUi(self, MainWindow):
@@ -176,26 +175,6 @@ class Ui_MainWindow(object):
         self.centralLayout.addLayout(self.controlsLayout)
         self.centralLayout.addWidget(self.messageBoardFrame)
 
-        # Setup Menu Bar
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 962, 22))
-        self.menubar.setObjectName("menubar")
-        
-        # Add "Appearance" Menu
-        self.menuAppearance = QtWidgets.QMenu(self.menubar)
-        self.menuAppearance.setObjectName("menuAppearance")
-        self.menuAppearance.setTitle("Appearance")
-
-        # Add "Toggle Theme" Action
-        self.actionToggle_Theme = QtWidgets.QAction(MainWindow)
-        self.actionToggle_Theme.setObjectName("actionToggle_Theme")
-        self.actionToggle_Theme.setText("Toggle Theme")
-        self.menuAppearance.addAction(self.actionToggle_Theme)
-
-        self.actionToggle_Theme.triggered.connect(self.toggleTheme)
-
-        self.menubar.addMenu(self.menuAppearance)
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         MainWindow.setMenuBar(self.menubar)
@@ -330,59 +309,6 @@ class Ui_MainWindow(object):
             }}
         """
         self.emergencyLabel.setStyleSheet(stylesheet)
-
-    def toggleTheme(self):
-        if self.currentTheme == 'light':
-            # Define your dark theme stylesheet
-            darkStyleSheet = """
-                QWidget {
-                    background-color: #333333;
-                    color: #ffffff;
-                }
-                QPushButton {
-                    background-color: #555555;
-                    color: #ffffff;
-                    border: 1px solid #666666;
-                }
-                QPushButton:hover {
-                    background-color: #777777;
-                }
-                QPushButton:pressed {
-                    background-color: #555555;
-                }
-                QLabel, QFrame {
-                    background-color: #444444;
-                    color: #ffffff;
-                }
-            """
-            self.centralwidget.setStyleSheet(darkStyleSheet)
-            self.currentTheme = 'dark'
-        else:
-            # Define your light theme stylesheet
-            lightStyleSheet = """
-                QWidget {
-                    background-color: #f0f0f0;
-                    color: #000000;
-                }
-                QPushButton {
-                    background-color: #e0e0e0;
-                    color: #000000;
-                    border: 1px solid #c0c0c0;
-                }
-                QPushButton:hover {
-                    background-color: #d0d0d0;
-                }
-                QPushButton:pressed {
-                    background-color: #c0c0c0;
-                }
-                QLabel, QFrame {
-                    background-color: #ffffff;
-                    color: #000000;
-                }
-            """
-            self.centralwidget.setStyleSheet(lightStyleSheet)
-            self.currentTheme = 'light'
-
 
 class MyApplication(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
